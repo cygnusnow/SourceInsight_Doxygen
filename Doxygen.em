@@ -2139,15 +2139,15 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
     InsBufLine(hbuf, ln, "/**")
     if( strlen(szFunc)>0 )
     {
-        InsBufLine(hbuf, ln+1, " *@@brief: 		@szFunc@")
+        InsBufLine(hbuf, ln+1, " * @@brief: 		@szFunc@")
     }
     else
     {
-        InsBufLine(hbuf, ln+1, " *@@brief:  		#")
+        InsBufLine(hbuf, ln+1, " * @@brief:  		#")
     }
     oldln = ln
-    InsBufLine(hbuf, ln+2, " *@@details:		")
-    szIns = " *@@param[in]	"
+    InsBufLine(hbuf, ln+2, " * @@details:	")
+    szIns = " * @@param[in]	"
     if(newFunc != 1)
     {
         //对于已经存在的函数插入函数参数
@@ -2170,10 +2170,10 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
     if(iIns == 0)
     {       
             ln = ln + 1
-            InsBufLine(hbuf, ln+2, " *@@param[in]		无")
+            InsBufLine(hbuf, ln+2, " * @@param[in]		无")
     }
-    InsBufLine(hbuf, ln+3, " *@@param[out]	无")
-    InsBufLine(hbuf, ln+4, " *@@retval:		@szRet@")
+    InsBufLine(hbuf, ln+3, " * @@param[out]	无")
+    InsBufLine(hbuf, ln+4, " * @@retval:		@szRet@")
     InsbufLIne(hbuf, ln+5, " */");
     
     if ((newFunc == 1) && (strlen(szFunc)>0))
@@ -2197,7 +2197,8 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
     DelBufLine(hbuf,oldln + 2)
 
     //显示输入的功能描述内容
-    newln = CommentContent(hbuf,oldln+2," *@@details:		",szContent,0) - 2
+    newln = CommentContent(hbuf,oldln+2," * @@details:	",szContent,0) - 2
+
     ln = ln + newln - oldln
     if ((newFunc == 1) && (strlen(szFunc)>0))
     {
@@ -2207,7 +2208,7 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
         szRet = Ask("请输入返回值类型")
         if(strlen(szRet) > 0)
         {
-            PutBufLine(hbuf, ln+4," *@@retval:		@szRet@")            
+            PutBufLine(hbuf, ln+4," * @@retval:		@szRet@")            
             PutBufLine(hbuf, ln+6, "@szRet@ @szFunc@(   )")
             SetbufIns(hbuf,ln+6,strlen(szRet)+strlen(szFunc) + 3
         }
@@ -2302,15 +2303,16 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
     InsBufLine(hbuf, ln, "/**")
     if( strlen(szFunc)>0 )
     {
-        InsBufLine(hbuf, ln+1, " *@@brief: 		@szFunc@")
+        InsBufLine(hbuf, ln+1, " * @@brief: 		@szFunc@")
     }
     else
     {
-        InsBufLine(hbuf, ln+1, " *@@brief:  		#")
+        InsBufLine(hbuf, ln+1, " * @@brief:  		#")
     }
     oldln = ln
-    InsBufLine(hbuf, ln+2, " *@@details:		")
-    szIns = " *@@param[in]	"
+    InsBufLine(hbuf, ln+2, " * @@details:	")
+
+    szIns = " * @@param[in]	"
     if(newFunc != 1)
     {
         //对于已经存在的函数插入函数参数
@@ -2325,7 +2327,7 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
             szTmp = cat(szIns,szTmp)
             InsBufLine(hbuf, ln+2, "@szTmp@")
             iIns = 1
-            szIns = " 				"
+            szIns = " * @@param[in]	"
             i = i + 1
         }    
         closebuf(hTmpBuf)
@@ -2333,10 +2335,10 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
     if(iIns == 0)
     {       
             ln = ln + 1
-            InsBufLine(hbuf, ln+2, " *@@param[in]		None")
+            InsBufLine(hbuf, ln+2, " * @@param[in]	None")
     }
-    InsBufLine(hbuf, ln+3, " *@@param[out]	None")
-    InsBufLine(hbuf, ln+4, " *@@retval:		@szRet@")
+    InsBufLine(hbuf, ln+3, " * @@param[out]	None")
+    InsBufLine(hbuf, ln+4, " * @@retval:		@szRet@")
     InsbufLIne(hbuf, ln+5, " */");
     
     if ((newFunc == 1) && (strlen(szFunc)>0))
@@ -2360,7 +2362,8 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
     DelBufLine(hbuf,oldln + 2)
 
     //显示输入的功能描述内容
-    newln = CommentContent(hbuf,oldln+2," *@@details:		",szContent,0) - 2
+    newln = CommentContent(hbuf,oldln+2," * @@details:	",szContent,0) - 2
+
     ln = ln + newln - oldln
     if ((newFunc == 1) && (strlen(szFunc)>0))
     {
@@ -2370,7 +2373,7 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
         szRet = Ask("Please input return value type")
         if(strlen(szRet) > 0)
         {
-            PutBufLine(hbuf, ln+4," *@@retval:		@szRet@")            
+            PutBufLine(hbuf, ln+4," * @@retval:		@szRet@")            
             PutBufLine(hbuf, ln+6, "@szRet@ @szFunc@(   )")
             SetbufIns(hbuf,ln+6,strlen(szRet)+strlen(szFunc) + 3
         }
