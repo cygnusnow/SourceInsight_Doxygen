@@ -1,6 +1,6 @@
 macro AutoExpand()
 {
-    //ÅäÖÃĞÅÏ¢
+    //é…ç½®ä¿¡æ¯
     // get window, sel, and buffer handles
     hwnd = GetCurrentWnd()
     if (hwnd == 0)
@@ -8,7 +8,7 @@ macro AutoExpand()
     sel = GetWndSel(hwnd)
     if(sel.lnFirst != sel.lnLast) 
     {
-        /*¿éÃüÁî´¦Àí*/
+        /*å—å‘½ä»¤å¤„ç†*/
         BlockCommandProc()
     }
     if (sel.ichFirst == 0)
@@ -21,7 +21,7 @@ macro AutoExpand()
     }
     nVer = 0
     nVer = GetVersion()
-    /*È¡µÃÓÃ»§Ãû*/
+    /*å–å¾—ç”¨æˆ·å*/
     szMyName = getreg(MYNAME)
     if(strlen( szMyName ) == 0)
     {
@@ -51,23 +51,23 @@ macro AutoExpand()
     sel.ichFirst = wordinfo.ich
     sel.ichLim = wordinfo.ich
 
-    /*×Ô¶¯Íê³É¼ò»¯ÃüÁîµÄÆ¥ÅäÏÔÊ¾*/
+    /*è‡ªåŠ¨å®Œæˆç®€åŒ–å‘½ä»¤çš„åŒ¹é…æ˜¾ç¤º*/
     wordinfo.szWord = RestoreCommand(hbuf,wordinfo.szWord)
     sel = GetWndSel(hwnd)
-    if (wordinfo.szWord == "pn") /*ÎÊÌâµ¥ºÅµÄ´¦Àí*/
+    if (wordinfo.szWord == "pn") /*é—®é¢˜å•å·çš„å¤„ç†*/
     {
         DelBufLine(hbuf, ln)
         AddPromblemNo()
         return
     }
-    /*ÅäÖÃÃüÁîÖ´ĞĞ*/
+    /*é…ç½®å‘½ä»¤æ‰§è¡Œ*/
     else if (wordinfo.szWord == "config" || wordinfo.szWord == "co")
     {
         DelBufLine(hbuf, ln)
         ConfigureSystem()
         return
     }
-    /*ĞŞ¸ÄÀúÊ·¼ÇÂ¼¸üĞÂ*/
+    /*ä¿®æ”¹å†å²è®°å½•æ›´æ–°*/
     else if (wordinfo.szWord == "hi")
     {
         DelBufLine(hbuf, ln)
@@ -129,7 +129,7 @@ macro ExpandProcEN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
     if (hwnd == 0)
         stop
     hbuf = GetWndBuf(hwnd)
-    /*Ó¢ÎÄ×¢ÊÍ*/
+    /*è‹±æ–‡æ³¨é‡Š*/
     if (szCmd == "/*")
     {   
         if(wordinfo.ichLim > 70)
@@ -393,7 +393,7 @@ macro ExpandProcEN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
     {
         DelBufLine(hbuf, ln)
 
-        /*Éú³É²»ÒªÎÄ¼şÃûµÄĞÂÍ·ÎÄ¼ş*/
+        /*ç”Ÿæˆä¸è¦æ–‡ä»¶åçš„æ–°å¤´æ–‡ä»¶*/
         CreateNewHeaderFile()
         return
     }
@@ -507,28 +507,28 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
         stop
     hbuf = GetWndBuf(hwnd)
 
-    //ÖĞÎÄ×¢ÊÍ
+    //ä¸­æ–‡æ³¨é‡Š
     if (szCmd == "/*")
     {   
         if(wordinfo.ichLim > 70)
         {
-            Msg("ÓÒ±ß¿Õ¼äÌ«Ğ¡,ÇëÓÃĞÂµÄĞĞ")
+            Msg("å³è¾¹ç©ºé—´å¤ªå°,è¯·ç”¨æ–°çš„è¡Œ")
             stop 
         }        szCurLine = GetBufLine(hbuf, sel.lnFirst);
         szLeft = strmid(szCurLine,0,wordinfo.ichLim)
         lineLen = strlen(szCurLine)
         kk = 0
-        /*×¢ÊÍÖ»ÄÜÔÚĞĞÎ²£¬±ÜÃâ×¢ÊÍµôÓĞÓÃ´úÂë*/
+        /*æ³¨é‡Šåªèƒ½åœ¨è¡Œå°¾ï¼Œé¿å…æ³¨é‡Šæ‰æœ‰ç”¨ä»£ç */
         while(wordinfo.ichLim + kk < lineLen)
         {
             if(szCurLine[wordinfo.ichLim + kk] != " ")
             {
-                msg("Ö»ÄÜÔÚĞĞÎ²²åÈë");
+                msg("åªèƒ½åœ¨è¡Œå°¾æ’å…¥");
                 return
             }
             kk = kk + 1
         }
-        szContent = Ask("ÇëÊäÈë×¢ÊÍµÄÄÚÈİ")
+        szContent = Ask("è¯·è¾“å…¥æ³¨é‡Šçš„å†…å®¹")
         DelBufLine(hbuf, ln)
         szLeft = cat( szLeft, " ")
         CommentContent(hbuf,ln,szLeft,szContent,1)            
@@ -632,7 +632,7 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
         InsBufLine(hbuf, ln + 3, "@szLine1@" # "}")
         SetWndSel(hwnd, sel)
         SearchForward()
-        szVar = ask("ÇëÊäÈëÑ­»·±äÁ¿")
+        szVar = ask("è¯·è¾“å…¥å¾ªç¯å˜é‡")
         newsel = sel
         newsel.ichLim = GetBufLineLength (hbuf, ln)
         SetWndSel(hwnd, newsel)
@@ -668,7 +668,7 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
     }
     else if (szCmd == "switch" || szCmd == "sw")
     {
-        nSwitch = ask("ÇëÊäÈëcaseµÄ¸öÊı")
+        nSwitch = ask("è¯·è¾“å…¥caseçš„ä¸ªæ•°")
         SetBufSelText(hbuf, " ( # )")
         InsBufLine(hbuf, ln + 1, "@szLine1@" # "{")
         InsertMultiCaseProc(hbuf,szLine1,nSwitch)
@@ -688,7 +688,7 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
     else if (szCmd == "struct" || szCmd == "st" )
     {
         DelBufLine(hbuf, ln)
-        szStructName = toupper(Ask("ÇëÊäÈë½á¹¹Ãû:"))
+        szStructName = toupper(Ask("è¯·è¾“å…¥ç»“æ„å:"))
         InsBufLine(hbuf, ln, "@szLine1@typedef struct @szStructName@");
         InsBufLine(hbuf, ln + 1, "@szLine1@{");
         InsBufLine(hbuf, ln + 2, "@szLine@      ");
@@ -700,8 +700,8 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
     else if (szCmd == "enum" || szCmd == "en")
     {
         DelBufLine(hbuf, ln)
-        //ÌáÊ¾ÊäÈëÃ¶¾ÙÃû²¢×ª»»Îª´óĞ´
-        szStructName = toupper(Ask("ÇëÊäÈëÃ¶¾ÙÃû:"))
+        //æç¤ºè¾“å…¥æšä¸¾åå¹¶è½¬æ¢ä¸ºå¤§å†™
+        szStructName = toupper(Ask("è¯·è¾“å…¥æšä¸¾å:"))
         InsBufLine(hbuf, ln, "@szLine1@typedef enum @szStructName@");
         InsBufLine(hbuf, ln + 1, "@szLine1@{");
         InsBufLine(hbuf, ln + 2, "@szLine@       ");
@@ -713,21 +713,21 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
     else if (szCmd == "file" || szCmd == "fi" )
     {
         DelBufLine(hbuf, ln)
-        /*Éú³ÉÎÄ¼şÍ·ËµÃ÷*/
+        /*ç”Ÿæˆæ–‡ä»¶å¤´è¯´æ˜*/
         InsertFileHeaderCN( hbuf,0, szMyName,"" )
         return
     }
     else if (szCmd == "hd")
     {
         DelBufLine(hbuf, ln)
-        /*Éú³ÉCÓïÑÔµÄÍ·ÎÄ¼ş*/
+        /*ç”ŸæˆCè¯­è¨€çš„å¤´æ–‡ä»¶*/
         CreateFunctionDef(hbuf,szMyName,0)
         return
     }
     else if (szCmd == "hdn")
     {
         DelBufLine(hbuf, ln)
-        /*Éú³É²»ÒªÎÄ¼şÃûµÄĞÂÍ·ÎÄ¼ş*/
+        /*ç”Ÿæˆä¸è¦æ–‡ä»¶åçš„æ–°å¤´æ–‡ä»¶*/
         CreateNewHeaderFile()
         return
     }
@@ -738,11 +738,11 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
         if(ln != lnMax)
         {
             szNextLine = GetBufLine(hbuf,ln)
-            /*¶ÔÓÚ2.1°æµÄsiÈç¹ûÊÇ·Ç·¨symbol¾Í»áÖĞ¶ÏÖ´ĞĞ£¬¹Ê¸ÃÎªÒÔºóÒ»ĞĞ
-              ÊÇ·ñÓĞ¡®£¨¡¯À´ÅĞ¶ÏÊÇ·ñÊÇĞÂº¯Êı*/
+            /*å¯¹äº2.1ç‰ˆçš„siå¦‚æœæ˜¯éæ³•symbolå°±ä¼šä¸­æ–­æ‰§è¡Œï¼Œæ•…è¯¥ä¸ºä»¥åä¸€è¡Œ
+              æ˜¯å¦æœ‰â€˜ï¼ˆâ€™æ¥åˆ¤æ–­æ˜¯å¦æ˜¯æ–°å‡½æ•°*/
             if( (strstr(szNextLine,"(") != 0xffffffff) || (nVer != 2))
             {
-                /*ÊÇÒÑ¾­´æÔÚµÄº¯Êı*/
+                /*æ˜¯å·²ç»å­˜åœ¨çš„å‡½æ•°*/
                 symbol = GetCurSymbol()
                 if(strlen(symbol) != 0)
                 {  
@@ -751,11 +751,11 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
                 }
             }
         }
-        szFuncName = Ask("ÇëÊäÈëº¯ÊıÃû³Æ:")
-        /*ÊÇĞÂº¯Êı*/
+        szFuncName = Ask("è¯·è¾“å…¥å‡½æ•°åç§°:")
+        /*æ˜¯æ–°å‡½æ•°*/
         FuncHeadCommentCN(hbuf, ln, szFuncName, szMyName, 1)
     }
-    else if (szCmd == "tab") /*½«tabÀ©Õ¹Îª¿Õ¸ñ*/
+    else if (szCmd == "tab") /*å°†tabæ‰©å±•ä¸ºç©ºæ ¼*/
     {
         DelBufLine(hbuf, ln)
         ReplaceBufTab()
@@ -769,12 +769,12 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
         
         DelBufLine(hbuf, ln)
         szQuestion = AddPromblemNo()
-        InsBufLine(hbuf, ln, "@szLine1@/* ÎÊ Ìâ µ¥: @szQuestion@     ĞŞ¸ÄÈË:@szMyName@,   Ê±¼ä:@sz@/@sz1@/@sz3@ ");
-        szContent = Ask("ĞŞ¸ÄÔ­Òò")
-        szLeft = cat(szLine1,"   ĞŞ¸ÄÔ­Òò: ");
+        InsBufLine(hbuf, ln, "@szLine1@/* é—® é¢˜ å•: @szQuestion@     ä¿®æ”¹äºº:@szMyName@,   æ—¶é—´:@sz@/@sz1@/@sz3@ ");
+        szContent = Ask("ä¿®æ”¹åŸå› ")
+        szLeft = cat(szLine1,"   ä¿®æ”¹åŸå› : ");
         if(strlen(szLeft) > 70)
         {
-            Msg("ÓÒ±ß¿Õ¼äÌ«Ğ¡,ÇëÓÃĞÂµÄĞĞ")
+            Msg("å³è¾¹ç©ºé—´å¤ªå°,è¯·ç”¨æ–°çš„è¡Œ")
             stop 
         }
         ln = CommentContent(hbuf,ln + 1,szLeft,szContent,1)
@@ -791,7 +791,7 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
         szQuestion = GetReg ("PNO")
         if(strlen(szQuestion)>0)
         {
-            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Added by @szMyName@, @sz@/@sz1@/@sz3@   ÎÊÌâµ¥ºÅ:@szQuestion@ */");
+            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Added by @szMyName@, @sz@/@sz1@/@sz3@   é—®é¢˜å•å·:@szQuestion@ */");
         }
         else
         {
@@ -821,7 +821,7 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
         szQuestion = GetReg ("PNO")
         if(strlen(szQuestion) > 0)
         {
-            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Deleted by @szMyName@, @sz@/@sz1@/@sz3@   ÎÊÌâµ¥ºÅ:@szQuestion@ */");
+            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Deleted by @szMyName@, @sz@/@sz1@/@sz3@   é—®é¢˜å•å·:@szQuestion@ */");
         }
         else
         {
@@ -852,7 +852,7 @@ macro ExpandProcCN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
         szQuestion = GetReg ("PNO")
         if(strlen(szQuestion) > 0)
         {
-            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Modified by @szMyName@, @sz@/@sz1@/@sz3@   ÎÊÌâµ¥ºÅ:@szQuestion@ */");
+            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Modified by @szMyName@, @sz@/@sz1@/@sz3@   é—®é¢˜å•å·:@szQuestion@ */");
         }
         else
         {
@@ -899,35 +899,35 @@ macro BlockCommandProc()
     szLine = TrimString(szLine)
     if(szLine == "while" || szLine == "wh")
     {
-        InsertWhile()   /*²åÈëwhile*/
+        InsertWhile()   /*æ’å…¥while*/
     }
     else if(szLine == "do")
     {
-        InsertDo()   //²åÈëdo whileÓï¾ä
+        InsertDo()   //æ’å…¥do whileè¯­å¥
     }
     else if(szLine == "for")
     {
-        InsertFor()  //²åÈëforÓï¾ä
+        InsertFor()  //æ’å…¥forè¯­å¥
     }
     else if(szLine == "if")
     {
-        InsertIf()   //²åÈëifÓï¾ä
+        InsertIf()   //æ’å…¥ifè¯­å¥
     }
     else if(szLine == "el" || szLine == "else")
     {
-        InsertElse()  //²åÈëelseÓï¾ä
+        InsertElse()  //æ’å…¥elseè¯­å¥
         DelBufLine(hbuf,ln)
         stop
     }
     else if((szLine == "#ifd") || (szLine == "#ifdef"))
     {
-        InsIfdef()        //²åÈë#ifdef
+        InsIfdef()        //æ’å…¥#ifdef
         DelBufLine(hbuf,ln)
         stop
     }
     else if((szLine == "#ifn") || (szLine == "#ifndef"))
     {
-        InsIfndef()        //²åÈë#ifdef
+        InsIfndef()        //æ’å…¥#ifdef
         DelBufLine(hbuf,ln)
         stop
     }    
@@ -1068,11 +1068,11 @@ macro InsertTraceInCurFunction(hbuf,symbol)
         szLine = GetBufLine(hbuf, ln)
         iCurLineLen = strlen(szLine)
         
-        /*ÌŞ³ıÆäÖĞµÄ×¢ÊÍÓï¾ä*/
+        /*å‰”é™¤å…¶ä¸­çš„æ³¨é‡Šè¯­å¥*/
         RetVal = SkipCommentFromString(szLine,fIsEnd)
         szLine = RetVal.szContent
         fIsEnd = RetVal.fIsEnd
-        //²éÕÒÊÇ·ñÓĞreturnÓï¾ä
+        //æŸ¥æ‰¾æ˜¯å¦æœ‰returnè¯­å¥
 /*        ret =strstr(szLine,"return")
         if(ret != 0xffffffff)
         {
@@ -1092,7 +1092,7 @@ macro InsertTraceInCurFunction(hbuf,symbol)
                 fIsEnd = RetVal.fIsEnd
             }
         }*/
-        //»ñµÃ×ó±ß¿Õ°×´óĞ¡
+        //è·å¾—å·¦è¾¹ç©ºç™½å¤§å°
         nLeft = GetLeftBlank(szLine)
         if(nLeft == 0)
         {
@@ -1111,7 +1111,7 @@ macro InsertTraceInCurFunction(hbuf,symbol)
         }
         szRet = GetFirstWord(szLine)
 //        if( (szRet == "if") || (szRet == "else")
-        //²éÕÒÊÇ·ñÓĞreturnÓï¾ä
+        //æŸ¥æ‰¾æ˜¯å¦æœ‰returnè¯­å¥
 //        ret =strstr(szLine,"return")
         
         if( szRet == "return")
@@ -1160,7 +1160,7 @@ macro InsertTraceInCurFunction(hbuf,symbol)
         ln = ln + 1
     }
     
-    //Ö»ÒªÇ°ÃæµÄreturnºóÓĞÒ»¸ö}ÁËËµÃ÷º¯ÊıµÄ½áÎ²Ã»ÓĞ·µ»Ø£¬ĞèÒªÔÙ¼ÓÒ»¸ö³ö¿Ú´òÓ¡
+    //åªè¦å‰é¢çš„returnåæœ‰ä¸€ä¸ª}äº†è¯´æ˜å‡½æ•°çš„ç»“å°¾æ²¡æœ‰è¿”å›ï¼Œéœ€è¦å†åŠ ä¸€ä¸ªå‡ºå£æ‰“å°
     if(fIsNeedPrt == 1)
     {
         InsBufLine(hbuf, ln,  "    DebugTrace(\"\\r\\n |@symbolname@() exit---: @nExitCount@ \");")        
@@ -1224,14 +1224,14 @@ macro AutoInsertTraceInfoInBuf()
                     {   
                         szLine = GetBufLine (hbuf, ln)
                         
-                        //È¥µô×¢ÊÍµÄ¸ÉÈÅ
+                        //å»æ‰æ³¨é‡Šçš„å¹²æ‰°
                         RetVal = SkipCommentFromString(szLine,fIsEnd)
         		        szNew = RetVal.szContent
         		        fIsEnd = RetVal.fIsEnd
                         if(isCodeBegin == 1)
                         {
                             szNew = TrimLeft(szNew)
-                            //¼ì²âÊÇ·ñÊÇ¿ÉÖ´ĞĞ´úÂë¿ªÊ¼
+                            //æ£€æµ‹æ˜¯å¦æ˜¯å¯æ‰§è¡Œä»£ç å¼€å§‹
                             iRet = CheckIsCodeBegin(szNew)
                             if(iRet == 1)
                             {
@@ -1257,7 +1257,7 @@ macro AutoInsertTraceInfoInBuf()
                                 isBlandLine = 0
                             }
                         }
-        		        //²éÕÒµ½º¯ÊıµÄ¿ªÊ¼
+        		        //æŸ¥æ‰¾åˆ°å‡½æ•°çš„å¼€å§‹
         		        if(isCodeBegin == 0)
         		        {
             		        iRet = strstr(szNew,"{")
@@ -1279,14 +1279,14 @@ macro AutoInsertTraceInfoInBuf()
                 {   
                     szLine = GetBufLine (hbuf, ln)
                     
-                    //È¥µô×¢ÊÍµÄ¸ÉÈÅ
+                    //å»æ‰æ³¨é‡Šçš„å¹²æ‰°
                     RetVal = SkipCommentFromString(szLine,fIsEnd)
     		        szNew = RetVal.szContent
     		        fIsEnd = RetVal.fIsEnd
                     if(isCodeBegin == 1)
                     {
                         szNew = TrimLeft(szNew)
-                        //¼ì²âÊÇ·ñÊÇ¿ÉÖ´ĞĞ´úÂë¿ªÊ¼
+                        //æ£€æµ‹æ˜¯å¦æ˜¯å¯æ‰§è¡Œä»£ç å¼€å§‹
                         iRet = CheckIsCodeBegin(szNew)
                         if(iRet == 1)
                         {
@@ -1311,7 +1311,7 @@ macro AutoInsertTraceInfoInBuf()
                             isBlandLine = 0
                         }
                     }
-    		        //²éÕÒµ½º¯ÊıµÄ¿ªÊ¼
+    		        //æŸ¥æ‰¾åˆ°å‡½æ•°çš„å¼€å§‹
     		        if(isCodeBegin == 0)
     		        {
         		        iRet = strstr(szNew,"{")
@@ -1421,7 +1421,7 @@ macro AutoInsertTraceInfoInPrj()
                 AutoInsertTraceInfoInBuf()
             }
         }
-        //×Ô¶¯±£´æ´ò¿ªÎÄ¼ş£¬¿É¸ù¾İĞèÒª´ò¿ª
+        //è‡ªåŠ¨ä¿å­˜æ‰“å¼€æ–‡ä»¶ï¼Œå¯æ ¹æ®éœ€è¦æ‰“å¼€
 /*        if( IsBufDirty (hbuf) )
         {
             SaveBuf (hbuf)
@@ -1452,7 +1452,7 @@ macro RemoveTraceInfo()
     {
         szLine = GetBufLine(hbuf, ln)
         
-        /*ÌŞ³ıÆäÖĞµÄ×¢ÊÍÓï¾ä*/
+        /*å‰”é™¤å…¶ä¸­çš„æ³¨é‡Šè¯­å¥*/
         RetVal = TrimString(szLine)
         if(fIsEntry == 0)
         {
@@ -1527,7 +1527,7 @@ macro RemovePrjTraceInfo()
             SetCurrentBuf(hbuf)
             RemoveCurBufTraceInfo()
         }
-        //×Ô¶¯±£´æ´ò¿ªÎÄ¼ş£¬¿É¸ù¾İĞèÒª´ò¿ª
+        //è‡ªåŠ¨ä¿å­˜æ‰“å¼€æ–‡ä»¶ï¼Œå¯æ ¹æ®éœ€è¦æ‰“å¼€
 /*        if( IsBufDirty (hbuf) )
         {
             SaveBuf (hbuf)
@@ -1550,7 +1550,7 @@ macro InsertFileHeaderEN(hbuf, ln,szName,szContent)
     szTime = SysTime.Date
     InsBufLine(hbuf, ln + 4,  " * @@date			@szTime@")
     InsBufLine(hbuf, ln + 5,  " * @@version			Initial Draft")
-    InsBufLine(hbuf, ln + 6,  " * @@par				Copyright (C),  2013-2023, Sky Tech")
+    InsBufLine(hbuf, ln + 6,  " * @@par				Copyright (C),  2017-2023, UBT Education")
     InsBufLine(hbuf, ln + 7, " * @@par History:")
     InsBufLine(hbuf, ln + 8, " * 1.Date: 			@szTime@")
 
@@ -1569,12 +1569,12 @@ macro InsertFileHeaderEN(hbuf, ln,szName,szContent)
         return
     }
     
-    //Èç¹ûÃ»ÓĞÊäÈë¹¦ÄÜÃèÊöµÄ»°ÌáÊ¾ÊäÈë
+    //å¦‚æœæ²¡æœ‰è¾“å…¥åŠŸèƒ½æè¿°çš„è¯æç¤ºè¾“å…¥
     szContent = Ask("Description")
     SetBufIns(hbuf,nlnDesc + 4,0)
     DelBufLine(hbuf,nlnDesc +2)
     
-    //×Ô¶¯ÅÅÁĞÏÔÊ¾¹¦ÄÜÃèÊö
+    //è‡ªåŠ¨æ’åˆ—æ˜¾ç¤ºåŠŸèƒ½æè¿°
     CommentContent(hbuf,nlnDesc+2," * @@brief			",szContent,0)    
 }
 
@@ -1590,32 +1590,32 @@ macro InsertFileHeaderCN(hbuf, ln,szName,szContent)
     SysTime = GetSysTime(1)
     szTime = SysTime.Date
     InsBufLine(hbuf, ln + 4,  " * @@date			@szTime@")
-    InsBufLine(hbuf, ln + 5,  " * @@version			³õ¸å")
-    InsBufLine(hbuf, ln + 6,  " * @@par				°æÈ¨ËùÓĞ (C), 2013-2023, ÌìµÀ³êÇÚ")
+    InsBufLine(hbuf, ln + 5,  " * @@version			åˆç¨¿")
+    InsBufLine(hbuf, ln + 6,  " * @@par				ç‰ˆæƒæ‰€æœ‰ (C), 2017-2023, ä¼˜å¿…é€‰æ•™è‚²")
     InsBufLine(hbuf, ln + 7, " * @@par History:")
-    InsBufLine(hbuf, ln + 8, " * 1.ÈÕ    ÆÚ: 		@szTime@")
+    InsBufLine(hbuf, ln + 8, " * 1.æ—¥    æœŸ: 		@szTime@")
 
     if( strlen(szMyName)>0 )
     {
-       InsBufLine(hbuf, ln + 9, " *   ×÷    Õß: 		@szName@")
+       InsBufLine(hbuf, ln + 9, " *   ä½œ    è€…: 		@szName@")
     }
     else
     {
-       InsBufLine(hbuf, ln + 9, " *  ×÷    Õß:		 #")
+       InsBufLine(hbuf, ln + 9, " *  ä½œ    è€…:		 #")
     }
-    InsBufLine(hbuf, ln + 10, " *   ĞŞ¸ÄÄÚÈİ:	´´½¨ÎÄ¼ş")    
+    InsBufLine(hbuf, ln + 10, " *   ä¿®æ”¹å†…å®¹:	åˆ›å»ºæ–‡ä»¶")    
     InsBufLine(hbuf, ln + 11, "*/")
     if(strlen(szContent) != 0)
     {
         return
     }
     
-    //Èç¹ûÃ»ÓĞÊäÈë¹¦ÄÜÃèÊöµÄ»°ÌáÊ¾ÊäÈë
-    szContent = Ask("ÇëÊäÈëÎÄ¼ş¹¦ÄÜÃèÊöµÄÄÚÈİ")
+    //å¦‚æœæ²¡æœ‰è¾“å…¥åŠŸèƒ½æè¿°çš„è¯æç¤ºè¾“å…¥
+    szContent = Ask("è¯·è¾“å…¥æ–‡ä»¶åŠŸèƒ½æè¿°çš„å†…å®¹")
     SetBufIns(hbuf,nlnDesc + 4,0)
     DelBufLine(hbuf,nlnDesc +2)
     
-    //×Ô¶¯ÅÅÁĞÏÔÊ¾¹¦ÄÜÃèÊö
+    //è‡ªåŠ¨æ’åˆ—æ˜¾ç¤ºåŠŸèƒ½æè¿°
     CommentContent(hbuf,nlnDesc+2," * @@brief			",szContent,0)
 }
 
@@ -1623,7 +1623,7 @@ macro GetFunctionList(hbuf,hnewbuf)
 {
     isymMax = GetBufSymCount (hbuf)
     isym = 0
-    //ÒÀ´ÎÈ¡³öÈ«²¿µÄµ«Ç°buf·ûºÅ±íÖĞµÄÈ«²¿·ûºÅ
+    //ä¾æ¬¡å–å‡ºå…¨éƒ¨çš„ä½†å‰bufç¬¦å·è¡¨ä¸­çš„å…¨éƒ¨ç¬¦å·
     while (isym < isymMax) 
     {
         symbol = GetBufSymLocation(hbuf, isym)
@@ -1645,9 +1645,9 @@ macro GetFunctionList(hbuf,hnewbuf)
             if( (symbol.Type == "Method") || 
                 (symbol.Type == "Function") || ("Editor Macro" == symbol.Type) )
             {
-                //È¡³öÀàĞÍÊÇº¯ÊıºÍºêµÄ·ûºÅ
+                //å–å‡ºç±»å‹æ˜¯å‡½æ•°å’Œå®çš„ç¬¦å·
                 symname = symbol.Symbol
-                //½«·ûºÅ²åÈëµ½ĞÂbufÖĞÕâÑù×öÊÇÎªÁË¼æÈİV2.1
+                //å°†ç¬¦å·æ’å…¥åˆ°æ–°bufä¸­è¿™æ ·åšæ˜¯ä¸ºäº†å…¼å®¹V2.1
                 AppendBufLine(hnewbuf,symname)
                }
            }
@@ -1675,11 +1675,11 @@ macro InsertFileList(hbuf,hnewbuf,ln)
 
 macro CommentContent1 (hbuf,ln,szPreStr,szContent,isEnd)
 {
-    //½«¼ôÌù°åÖĞµÄ¶à¶ÎÎÄ±¾ºÏ²¢
+    //å°†å‰ªè´´æ¿ä¸­çš„å¤šæ®µæ–‡æœ¬åˆå¹¶
     szClip = MergeString()
-    //È¥µô¶àÓàµÄ¿Õ¸ñ
+    //å»æ‰å¤šä½™çš„ç©ºæ ¼
     szTmp = TrimString(szContent)
-    //Èç¹ûÊäÈë´°¿ÚÖĞµÄÄÚÈİÊÇ¼ôÌù°åÖĞµÄÄÚÈİËµÃ÷ÊÇ¼ôÌù¹ıÀ´µÄ
+    //å¦‚æœè¾“å…¥çª—å£ä¸­çš„å†…å®¹æ˜¯å‰ªè´´æ¿ä¸­çš„å†…å®¹è¯´æ˜æ˜¯å‰ªè´´è¿‡æ¥çš„
     ret = strstr(szClip,szTmp)
     if(ret == 0)
     {
@@ -1708,7 +1708,7 @@ macro CommentContent1 (hbuf,ln,szPreStr,szContent,isEnd)
             while(j < 75 - k)
             {
                 iNum = szContent[i + j]
-                //Èç¹ûÊÇÖĞÎÄ±ØĞë³É¶Ô´¦Àí
+                //å¦‚æœæ˜¯ä¸­æ–‡å¿…é¡»æˆå¯¹å¤„ç†
                 if( AsciiFromChar (iNum)  > 160 )
                 {
                    j = j + 2
@@ -1793,15 +1793,15 @@ macro CommentContent (hbuf,ln,szPreStr,szContent,isEnd)
     lnMax = GetBufLineCount( hNewBuf )
     szTmp = TrimString(szContent)
 
-    //ÅĞ¶ÏÈç¹û¼ôÌù°åÊÇ0ĞĞÊ±¶ÔÓÚÓĞĞ©°æ±¾»áÓĞÎÊÌâ£¬ÒªÅÅ³ıµô
+    //åˆ¤æ–­å¦‚æœå‰ªè´´æ¿æ˜¯0è¡Œæ—¶å¯¹äºæœ‰äº›ç‰ˆæœ¬ä¼šæœ‰é—®é¢˜ï¼Œè¦æ’é™¤æ‰
     if(lnMax != 0)
     {
         szLine = GetBufLine(hNewBuf , 0)
 	    ret = strstr(szLine,szTmp)
 	    if(ret == 0)
 	    {
-	        /*Èç¹ûÊäÈë´°ÊäÈëµÄÄÚÈİÊÇ¼ôÌù°åµÄÒ»²¿·ÖËµÃ÷ÊÇ¼ôÌù¹ıÀ´µÄÈ¡¼ôÌù°åÖĞµÄÄÚ
-	          Èİ*/
+	        /*å¦‚æœè¾“å…¥çª—è¾“å…¥çš„å†…å®¹æ˜¯å‰ªè´´æ¿çš„ä¸€éƒ¨åˆ†è¯´æ˜æ˜¯å‰ªè´´è¿‡æ¥çš„å–å‰ªè´´æ¿ä¸­çš„å†…
+	          å®¹*/
 	        szContent = TrimString(szLine)
 	    }
 	    else
@@ -1832,7 +1832,7 @@ macro CommentContent (hbuf,ln,szPreStr,szContent,isEnd)
         else
         {
             i = 0
-            //ÒÔÃ¿ĞĞ75¸ö×Ö·û´¦Àí
+            //ä»¥æ¯è¡Œ75ä¸ªå­—ç¬¦å¤„ç†
             while  (iLen - i > 75 - k )
             {
                 j = 0
@@ -1856,7 +1856,7 @@ macro CommentContent (hbuf,ln,szPreStr,szContent,isEnd)
                 {
                     n = 0;
                     iNum = szContent[i + j + n]
-                    //Èç¹ûÊÇÖĞÎÄ×Ö·ûÖ»ÄÜ³É¶Ô´¦Àí
+                    //å¦‚æœæ˜¯ä¸­æ–‡å­—ç¬¦åªèƒ½æˆå¯¹å¤„ç†
                     while( (iNum != " " ) && (AsciiFromChar (iNum)  < 160))
                     {
                         n = n + 1
@@ -1866,14 +1866,14 @@ macro CommentContent (hbuf,ln,szPreStr,szContent,isEnd)
                     }
                     if(n < 3)
                     {
-                        //·Ö¶ÎºóÖ»ÓĞĞ¡ÓÚ3¸öµÄ×Ö·ûÁôÔÚÏÂ¶ÎÔò½«ÆäÒÔÉÏÈ¥
+                        //åˆ†æ®µååªæœ‰å°äº3ä¸ªçš„å­—ç¬¦ç•™åœ¨ä¸‹æ®µåˆ™å°†å…¶ä»¥ä¸Šå»
                         j = j + n 
                         sz1 = strmid(szContent,i,i+j)
                         sz1 = cat(szPreStr,sz1)                
                     }
                     else
                     {
-                        //´óÓÚ3¸ö×Ö·ûµÄ¼ÓÁ¬×Ö·û·Ö¶Î
+                        //å¤§äº3ä¸ªå­—ç¬¦çš„åŠ è¿å­—ç¬¦åˆ†æ®µ
                         sz1 = strmid(szContent,i,i+j)
                         sz1 = cat(szPreStr,sz1)
                         if(sz1[strlen(sz1)-1] != "-")
@@ -1919,7 +1919,7 @@ macro FormatLine()
     sel = GetWndSel(hwnd)
     if(sel.ichFirst > 70)
     {
-        Msg("Ñ¡ÔñÌ«¿¿ÓÒÁË")
+        Msg("é€‰æ‹©å¤ªé å³äº†")
         stop 
     }
     hbuf = GetWndBuf(hwnd)
@@ -2002,12 +2002,12 @@ macro GetFunctionDef(hbuf,symbol)
     while(ln < symbol.lnLim)
     {
         szLine = GetBufLine (hbuf, ln)
-        //È¥µô±»×¢ÊÍµôµÄÄÚÈİ
+        //å»æ‰è¢«æ³¨é‡Šæ‰çš„å†…å®¹
         RetVal = SkipCommentFromString(szLine,fIsEnd)
 		szLine = RetVal.szContent
 		szLine = TrimString(szLine)
 		fIsEnd = RetVal.fIsEnd
-        //Èç¹ûÊÇ{±íÊ¾º¯Êı²ÎÊıÍ·½áÊøÁË
+        //å¦‚æœæ˜¯{è¡¨ç¤ºå‡½æ•°å‚æ•°å¤´ç»“æŸäº†
         ret = strstr(szLine,"{")        
         if(ret != 0xffffffff)
         {
@@ -2030,7 +2030,7 @@ macro GetWordFromString(hbuf,szLine,nBeg,nEnd,chBeg,chSeparator,chEnd)
     }
     nMaxLen = 0
     nIdx = nBeg
-    //ÏÈ¶¨Î»µ½¿ªÊ¼×Ö·û±ê¼Ç´¦
+    //å…ˆå®šä½åˆ°å¼€å§‹å­—ç¬¦æ ‡è®°å¤„
     while(nIdx < nEnd)
     {
         if(szLine[nIdx] == chBeg)
@@ -2041,11 +2041,11 @@ macro GetWordFromString(hbuf,szLine,nBeg,nEnd,chBeg,chSeparator,chEnd)
     }
     nBegWord = nIdx + 1
     
-    //ÓÃÓÚ¼ì²âchBegºÍchEndµÄÅä¶ÔÇé¿ö
+    //ç”¨äºæ£€æµ‹chBegå’ŒchEndçš„é…å¯¹æƒ…å†µ
     iCount = 0
     
     nEndWord = 0
-    //ÒÔ·Ö¸ô·ûÎª±ê¼Ç½øĞĞËÑË÷
+    //ä»¥åˆ†éš”ç¬¦ä¸ºæ ‡è®°è¿›è¡Œæœç´¢
     while(nIdx < nEnd)
     {
         if(szLine[nIdx] == chSeparator)
@@ -2102,10 +2102,10 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
             {
                 stop
             }
-            //½«ÎÄ¼ş²ÎÊıÍ·ÕûÀí³ÉÒ»ĞĞ²¢È¥µôÁË×¢ÊÍ
+            //å°†æ–‡ä»¶å‚æ•°å¤´æ•´ç†æˆä¸€è¡Œå¹¶å»æ‰äº†æ³¨é‡Š
             szLine = GetFunctionDef(hbuf,symbol)            
             iBegin = symbol.ichName 
-            //È¡³ö·µ»ØÖµ¶¨Òå
+            //å–å‡ºè¿”å›å€¼å®šä¹‰
             szTemp = strmid(szLine,0,iBegin)
             szTemp = TrimString(szTemp)
             szRet =  GetFirstWord(szTemp)
@@ -2120,10 +2120,10 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
             }
             if(toupper (szRet) == "MACRO")
             {
-                //¶ÔÓÚºê·µ»ØÖµÌØÊâ´¦Àí
+                //å¯¹äºå®è¿”å›å€¼ç‰¹æ®Šå¤„ç†
                 szRet = ""
             }
-            //´Óº¯ÊıÍ··ÖÀë³öº¯Êı²ÎÊı
+            //ä»å‡½æ•°å¤´åˆ†ç¦»å‡ºå‡½æ•°å‚æ•°
             nMaxParamSize = GetWordFromString(hTmpBuf,szLine,iBegin,strlen(szLine),"(",",",")")
             lnMax = GetBufLineCount(hTmpBuf)
             ln = symbol.lnFirst
@@ -2150,7 +2150,7 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
     szIns = " *@@param[in]	"
     if(newFunc != 1)
     {
-        //¶ÔÓÚÒÑ¾­´æÔÚµÄº¯Êı²åÈëº¯Êı²ÎÊı
+        //å¯¹äºå·²ç»å­˜åœ¨çš„å‡½æ•°æ’å…¥å‡½æ•°å‚æ•°
         i = 0
         while ( i < lnMax) 
         {
@@ -2170,9 +2170,9 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
     if(iIns == 0)
     {       
             ln = ln + 1
-            InsBufLine(hbuf, ln+2, " *@@param[in]		ÎŞ")
+            InsBufLine(hbuf, ln+2, " *@@param[in]		æ— ")
     }
-    InsBufLine(hbuf, ln+3, " *@@param[out]	ÎŞ")
+    InsBufLine(hbuf, ln+3, " *@@param[out]	æ— ")
     InsBufLine(hbuf, ln+4, " *@@retval:		@szRet@")
     InsbufLIne(hbuf, ln+5, " */");
     
@@ -2192,19 +2192,19 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
     sel.ichLim = sel.ichFirst
     sel.lnFirst = ln + 6
     sel.lnLast = ln + 6        
-    szContent = Ask("ÇëÊäÈëº¯Êı¹¦ÄÜÃèÊöµÄÄÚÈİ")
+    szContent = Ask("è¯·è¾“å…¥å‡½æ•°åŠŸèƒ½æè¿°çš„å†…å®¹")
     setWndSel(hwnd,sel)
     DelBufLine(hbuf,oldln + 2)
 
-    //ÏÔÊ¾ÊäÈëµÄ¹¦ÄÜÃèÊöÄÚÈİ
+    //æ˜¾ç¤ºè¾“å…¥çš„åŠŸèƒ½æè¿°å†…å®¹
     newln = CommentContent(hbuf,oldln+2," *@@details:		",szContent,0) - 2
     ln = ln + newln - oldln
     if ((newFunc == 1) && (strlen(szFunc)>0))
     {
         isFirstParam = 1
             
-        //ÌáÊ¾ÊäÈëĞÂº¯ÊıµÄ·µ»ØÖµ
-        szRet = Ask("ÇëÊäÈë·µ»ØÖµÀàĞÍ")
+        //æç¤ºè¾“å…¥æ–°å‡½æ•°çš„è¿”å›å€¼
+        szRet = Ask("è¯·è¾“å…¥è¿”å›å€¼ç±»å‹")
         if(strlen(szRet) > 0)
         {
             PutBufLine(hbuf, ln+4," *@@retval:		@szRet@")            
@@ -2214,10 +2214,10 @@ macro FuncHeadCommentCN(hbuf, ln, szFunc, szMyName,newFunc)
         szFuncDef = ""
         sel.ichFirst = strlen(szFunc)+strlen(szRet) + 3
         sel.ichLim = sel.ichFirst + 1
-        //Ñ­»·ÊäÈë²ÎÊı
+        //å¾ªç¯è¾“å…¥å‚æ•°
         while (1)
         {
-            szParam = ask("ÇëÊäÈëº¯Êı²ÎÊıÃû")
+            szParam = ask("è¯·è¾“å…¥å‡½æ•°å‚æ•°å")
             szParam = TrimString(szParam)
             szTmp = cat(szIns,szParam)
             szParam = cat(szFuncDef,szParam)
@@ -2265,10 +2265,10 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
             {
                 stop
             }
-            //½«ÎÄ¼ş²ÎÊıÍ·ÕûÀí³ÉÒ»ĞĞ²¢È¥µôÁË×¢ÊÍ
+            //å°†æ–‡ä»¶å‚æ•°å¤´æ•´ç†æˆä¸€è¡Œå¹¶å»æ‰äº†æ³¨é‡Š
             szLine = GetFunctionDef(hbuf,symbol)            
             iBegin = symbol.ichName 
-            //È¡³ö·µ»ØÖµ¶¨Òå
+            //å–å‡ºè¿”å›å€¼å®šä¹‰
             szTemp = strmid(szLine,0,iBegin)
             szTemp = TrimString(szTemp)
             szRet =  GetFirstWord(szTemp)
@@ -2283,10 +2283,10 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
             }
             if(toupper (szRet) == "MACRO")
             {
-                //¶ÔÓÚºê·µ»ØÖµÌØÊâ´¦Àí
+                //å¯¹äºå®è¿”å›å€¼ç‰¹æ®Šå¤„ç†
                 szRet = ""
             }
-            //´Óº¯ÊıÍ··ÖÀë³öº¯Êı²ÎÊı
+            //ä»å‡½æ•°å¤´åˆ†ç¦»å‡ºå‡½æ•°å‚æ•°
             nMaxParamSize = GetWordFromString(hTmpBuf,szLine,iBegin,strlen(szLine),"(",",",")")
             lnMax = GetBufLineCount(hTmpBuf)
             ln = symbol.lnFirst
@@ -2313,7 +2313,7 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
     szIns = " *@@param[in]	"
     if(newFunc != 1)
     {
-        //¶ÔÓÚÒÑ¾­´æÔÚµÄº¯Êı²åÈëº¯Êı²ÎÊı
+        //å¯¹äºå·²ç»å­˜åœ¨çš„å‡½æ•°æ’å…¥å‡½æ•°å‚æ•°
         i = 0
         while ( i < lnMax) 
         {
@@ -2359,14 +2359,14 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
     setWndSel(hwnd,sel)
     DelBufLine(hbuf,oldln + 2)
 
-    //ÏÔÊ¾ÊäÈëµÄ¹¦ÄÜÃèÊöÄÚÈİ
+    //æ˜¾ç¤ºè¾“å…¥çš„åŠŸèƒ½æè¿°å†…å®¹
     newln = CommentContent(hbuf,oldln+2," *@@details:		",szContent,0) - 2
     ln = ln + newln - oldln
     if ((newFunc == 1) && (strlen(szFunc)>0))
     {
         isFirstParam = 1
             
-        //ÌáÊ¾ÊäÈëĞÂº¯ÊıµÄ·µ»ØÖµ
+        //æç¤ºè¾“å…¥æ–°å‡½æ•°çš„è¿”å›å€¼
         szRet = Ask("Please input return value type")
         if(strlen(szRet) > 0)
         {
@@ -2377,7 +2377,7 @@ macro FuncHeadCommentEN(hbuf, ln, szFunc, szMyName,newFunc)
         szFuncDef = ""
         sel.ichFirst = strlen(szFunc)+strlen(szRet) + 3
         sel.ichLim = sel.ichFirst + 1
-        //Ñ­»·ÊäÈë²ÎÊı
+        //å¾ªç¯è¾“å…¥å‚æ•°
         while (1)
         {
             szParam = ask("Please input parameter")
@@ -2422,7 +2422,7 @@ macro InsertHistory(hbuf,ln,language)
     while(ln-i>0)
     {
         szCurLine = GetBufLine(hbuf, ln-i);
-        iBeg1 = strstr(szCurLine,"ÈÕ    ÆÚ")
+        iBeg1 = strstr(szCurLine,"æ—¥    æœŸ")
         iBeg2 = strstr(szCurLine,"Date")
         if((iBeg1 != 0xffffffff) || (iBeg2 != 0xffffffff))
         {
@@ -2430,7 +2430,7 @@ macro InsertHistory(hbuf,ln,language)
             i = i + 1
             continue
         }
-        iBeg1 = strstr(szCurLine,"ĞŞ¸ÄÀúÊ·")
+        iBeg1 = strstr(szCurLine,"ä¿®æ”¹å†å²")
         iBeg2 = strstr(szCurLine,"History")
         if((iBeg1 != 0xffffffff) || (iBeg2 != 0xffffffff))
         {
@@ -2481,7 +2481,7 @@ macro UpdateFunctionList()
             j = j + 1
         }
         
-        //ÒÔÎÄ¼şÍ·ËµÃ÷ÖĞÇ°ÓĞ´óÓÚ10¸ö¿Õ¸ñµÄÎªº¯ÊıÁĞ±í¼ÇÂ¼
+        //ä»¥æ–‡ä»¶å¤´è¯´æ˜ä¸­å‰æœ‰å¤§äº10ä¸ªç©ºæ ¼çš„ä¸ºå‡½æ•°åˆ—è¡¨è®°å½•
         if(j > 10)
         {
             DelBufLine(hbuf, ln)   
@@ -2493,7 +2493,7 @@ macro UpdateFunctionList()
         iTotalLn = GetBufLineCount (hbuf) 
     }
 
-    //²åÈëº¯ÊıÁĞ±í
+    //æ’å…¥å‡½æ•°åˆ—è¡¨
     InsertFileList( hbuf,hnewbuf,ln )
     closebuf(hnewbuf)
  }
@@ -2505,18 +2505,18 @@ macro  InsertHistoryContentCN(hbuf,ln,iHostoryCount)
     szMyName = getreg(MYNAME)
 
     InsBufLine(hbuf, ln, " *")
-    InsBufLine(hbuf, ln + 1, " * @iHostoryCount@.ÈÕ    ÆÚ: 		@szTime@")
+    InsBufLine(hbuf, ln + 1, " * @iHostoryCount@.æ—¥    æœŸ: 		@szTime@")
 
     if( strlen(szMyName) > 0 )
     {
-       InsBufLine(hbuf, ln + 2, " *   ×÷    Õß: 		@szMyName@")
+       InsBufLine(hbuf, ln + 2, " *   ä½œ    è€…: 		@szMyName@")
     }
     else
     {
-       InsBufLine(hbuf, ln + 2, " *   ×÷    Õß: 		 #")
+       InsBufLine(hbuf, ln + 2, " *   ä½œ    è€…: 		 #")
     }
-    szContent = Ask("ÇëÊäÈëĞŞ¸ÄµÄÄÚÈİ")
-    CommentContent(hbuf,ln + 3," *   ĞŞ¸ÄÄÚÈİ:	",szContent,0) 
+    szContent = Ask("è¯·è¾“å…¥ä¿®æ”¹çš„å†…å®¹")
+    CommentContent(hbuf,ln + 3," *   ä¿®æ”¹å†…å®¹:	",szContent,0) 
 }
 
 
@@ -2547,11 +2547,11 @@ macro CreateFunctionDef(hbuf, szName, language)
 {
     ln = 0
 
-    //»ñµÃµ±Ç°Ã»ÓĞºó×ºµÄÎÄ¼şÃû
+    //è·å¾—å½“å‰æ²¡æœ‰åç¼€çš„æ–‡ä»¶å
     szFileName = GetFileNameNoExt(GetBufName (hbuf))
     if(strlen(szFileName) == 0)
     {    
-        sz = ask("ÇëÊäÈëÍ·ÎÄ¼şÃû")
+        sz = ask("è¯·è¾“å…¥å¤´æ–‡ä»¶å")
         szFileName = GetFileNameNoExt(sz)
         szExt = GetFileNameExt(szFileName)        
         szPreH = toupper (szFileName)
@@ -2566,7 +2566,7 @@ macro CreateFunctionDef(hbuf, szName, language)
     hOutbuf = NewBuf(sz) // create output buffer
     if (hOutbuf == 0)
         stop
-    //ËÑË÷·ûºÅ±íÈ¡µÃº¯ÊıÃû
+    //æœç´¢ç¬¦å·è¡¨å–å¾—å‡½æ•°å
     SetCurrentBuf(hOutbuf)
     isymMax = GetBufSymCount(hbuf)
     isym = 0
@@ -2618,14 +2618,14 @@ macro CreateFunctionDef(hbuf, szName, language)
     szContent = GetFileName(GetBufName (hbuf))
     if(language == 0)
     {
-        szContent = cat(szContent," µÄÍ·ÎÄ¼ş")
-        //²åÈëÎÄ¼şÍ·ËµÃ÷
+        szContent = cat(szContent," çš„å¤´æ–‡ä»¶")
+        //æ’å…¥æ–‡ä»¶å¤´è¯´æ˜
         InsertFileHeaderCN(hOutbuf,0,szName,szContent)
     }
     else
     {
         szContent = cat(szContent," header file")
-        //²åÈëÎÄ¼şÍ·ËµÃ÷
+        //æ’å…¥æ–‡ä»¶å¤´è¯´æ˜
         InsertFileHeaderEN(hOutbuf,0,szName,szContent)        
     }
 }
@@ -2679,7 +2679,7 @@ macro CreateClassPrototype(hbuf,ln,symbol)
     szPre = strmid(szLine,0,ret)
     szLine = strmid(szLine,symbol.ichName,strlen(szLine))
     szLine = cat(szPre,szLine)
-    //È¥µô×¢ÊÍµÄ¸ÉÈÅ
+    //å»æ‰æ³¨é‡Šçš„å¹²æ‰°
     RetVal = SkipCommentFromString(szLine,fIsEnd)
     fIsEnd = RetVal.fIsEnd
     szNew = RetVal.szContent
@@ -2701,9 +2701,9 @@ macro CreateClassPrototype(hbuf,ln,symbol)
                 j = j - 1;
                 if(j <= 0)
                 {
-                    //º¯Êı²ÎÊıÍ·½áÊø
+                    //å‡½æ•°å‚æ•°å¤´ç»“æŸ
                     isLastLine = 1  
-                    //È¥µô×îºó¶àÓàµÄ×Ö·û
+                    //å»æ‰æœ€åå¤šä½™çš„å­—ç¬¦
         	        szLine = strmid(szLine,0,i+1);
                     szLine = cat(szLine,";")
                     break
@@ -2716,9 +2716,9 @@ macro CreateClassPrototype(hbuf,ln,symbol)
         sline = sline + 1
         if(isLastLine != 1)
         {              
-            //º¯Êı²ÎÊıÍ·»¹Ã»ÓĞ½áÊøÔÙÈ¡Ò»ĞĞ
+            //å‡½æ•°å‚æ•°å¤´è¿˜æ²¡æœ‰ç»“æŸå†å–ä¸€è¡Œ
             szLine = GetBufLine (hbuf, sline)
-            //È¥µô×¢ÊÍµÄ¸ÉÈÅ
+            //å»æ‰æ³¨é‡Šçš„å¹²æ‰°
             RetVal = SkipCommentFromString(szLine,fIsEnd)
 	        szNew = RetVal.szContent
 	        fIsEnd = RetVal.fIsEnd
@@ -2732,7 +2732,7 @@ macro CreateFuncPrototype(hbuf,ln,szType,symbol)
     isLastLine = 0
     hOutbuf = GetCurrentBuf()
     szLine = GetBufLine (hbuf,symbol.lnName)
-    //È¥µô×¢ÊÍµÄ¸ÉÈÅ
+    //å»æ‰æ³¨é‡Šçš„å¹²æ‰°
     RetVal = SkipCommentFromString(szLine,fIsEnd)
     szNew = RetVal.szContent
     fIsEnd = RetVal.fIsEnd
@@ -2755,9 +2755,9 @@ macro CreateFuncPrototype(hbuf,ln,szType,symbol)
                 j = j - 1;
                 if(j <= 0)
                 {
-                    //º¯Êı²ÎÊıÍ·½áÊø
+                    //å‡½æ•°å‚æ•°å¤´ç»“æŸ
                     isLastLine = 1  
-                    //È¥µô×îºó¶àÓàµÄ×Ö·û
+                    //å»æ‰æœ€åå¤šä½™çš„å­—ç¬¦
         	        szLine = strmid(szLine,0,i+1);
                     szLine = cat(szLine,";")
                     break
@@ -2770,10 +2770,10 @@ macro CreateFuncPrototype(hbuf,ln,szType,symbol)
         sline = sline + 1
         if(isLastLine != 1)
         {              
-            //º¯Êı²ÎÊıÍ·»¹Ã»ÓĞ½áÊøÔÙÈ¡Ò»ĞĞ
+            //å‡½æ•°å‚æ•°å¤´è¿˜æ²¡æœ‰ç»“æŸå†å–ä¸€è¡Œ
             szLine = GetBufLine (hbuf, sline)
             szLine = cat("         ",szLine)
-            //È¥µô×¢ÊÍµÄ¸ÉÈÅ
+            //å»æ‰æ³¨é‡Šçš„å¹²æ‰°
             RetVal = SkipCommentFromString(szLine,fIsEnd)
 	        szNew = RetVal.szContent
 	        fIsEnd = RetVal.fIsEnd
@@ -2800,7 +2800,7 @@ macro CreateNewHeaderFile()
     isymMax = GetBufSymCount(hbuf)
     isym = 0
     ln = 0
-    //»ñµÃµ±Ç°Ã»ÓĞºó×ºµÄÎÄ¼şÃû
+    //è·å¾—å½“å‰æ²¡æœ‰åç¼€çš„æ–‡ä»¶å
     sz = ask("Please input header file name")
     szFileName = GetFileNameNoExt(sz)
     szExt = GetFileNameExt(sz)        
@@ -2818,16 +2818,16 @@ macro CreateNewHeaderFile()
     szContent = GetFileName(GetBufName (hbuf))
     if(language == 0)
     {
-        szContent = cat(szContent," µÄÍ·ÎÄ¼ş")
+        szContent = cat(szContent," çš„å¤´æ–‡ä»¶")
 
-        //²åÈëÎÄ¼şÍ·ËµÃ÷
+        //æ’å…¥æ–‡ä»¶å¤´è¯´æ˜
         InsertFileHeaderCN(hOutbuf,0,szName,szContent)
     }
     else
     {
         szContent = cat(szContent," header file")
 
-        //²åÈëÎÄ¼şÍ·ËµÃ÷
+        //æ’å…¥æ–‡ä»¶å¤´è¯´æ˜
         InsertFileHeaderEN(hOutbuf,0,szName,szContent)        
     }
 
@@ -2849,7 +2849,7 @@ macro CreateNewHeaderFile()
     sel.ichLim = 0
     SetBufIns(hOutbuf,ln,0)
     szType = Ask ("Please prototype type : extern or static")
-    //ËÑË÷·ûºÅ±íÈ¡µÃº¯ÊıÃû
+    //æœç´¢ç¬¦å·è¡¨å–å¾—å‡½æ•°å
     while (isym < isymMax) 
     {
         isLastLine = 0
@@ -2927,7 +2927,7 @@ macro GetWordLeftOfIch(ich, sz)
              &&  (ch != "#") )
             break // stop at first non-identifier character
 */
-        //Ö»ÌáÈ¡×Ö·ûºÍ# { / *×÷ÎªÃüÁî
+        //åªæå–å­—ç¬¦å’Œ# { / *ä½œä¸ºå‘½ä»¤
         if ((asciiCh < asciiA || asciiCh > asciiZ) 
            && !IsNumber(ch)
            && ( ch != "#" && ch != "{" && ch != "/" && ch != "*"))
@@ -2952,7 +2952,7 @@ macro ReplaceBufTab()
         stop
     hbuf = GetWndBuf(hwnd)
     iTotalLn = GetBufLineCount (hbuf)
-    nBlank = Ask("Ò»¸öTabÌæ»»¼¸¸ö¿Õ¸ñ")
+    nBlank = Ask("ä¸€ä¸ªTabæ›¿æ¢å‡ ä¸ªç©ºæ ¼")
     if(nBlank == 0)
     {
         nBlank = 4
@@ -2965,7 +2965,7 @@ macro ReplaceTabInProj()
 {
     hprj = GetCurrentProj()
     ifileMax = GetProjFileCount (hprj)
-    nBlank = Ask("Ò»¸öTabÌæ»»¼¸¸ö¿Õ¸ñ")
+    nBlank = Ask("ä¸€ä¸ªTabæ›¿æ¢å‡ ä¸ªç©ºæ ¼")
     if(nBlank == 0)
     {
         nBlank = 4
@@ -3116,7 +3116,7 @@ macro ExpandBraceLarge()
     szMid = ""
     if(sel.lnFirst == sel.lnLast && sel.ichFirst == sel.ichLim)
     {
-        //¶ÔÓÚÃ»ÓĞ¿éÑ¡ÔñµÄÇé¿ö£¬Ö±½Ó²åÈë{}¼´¿É
+        //å¯¹äºæ²¡æœ‰å—é€‰æ‹©çš„æƒ…å†µï¼Œç›´æ¥æ’å…¥{}å³å¯
         if( nLeft == strlen(szLine) )
         {
             SetBufSelText (hbuf, "{")
@@ -3135,9 +3135,9 @@ macro ExpandBraceLarge()
     }
     else
     {
-        //¶ÔÓÚÓĞ¿éÑ¡ÔñµÄÇé¿ö»¹µÃ¿¼ÂÇ½«¿éÑ¡ÔñÇø·Ö¿ªÁË
+        //å¯¹äºæœ‰å—é€‰æ‹©çš„æƒ…å†µè¿˜å¾—è€ƒè™‘å°†å—é€‰æ‹©åŒºåˆ†å¼€äº†
         
-        //¼ì²éÑ¡ÔñÇøÄÚÊÇ·ñ´óÀ¨ºÅÅä¶Ô£¬Èç¹ûÏÓÌ«ÂıÔò×¢ÊÍµôÏÂÃæµÄÅĞ¶Ï
+        //æ£€æŸ¥é€‰æ‹©åŒºå†…æ˜¯å¦å¤§æ‹¬å·é…å¯¹ï¼Œå¦‚æœå«Œå¤ªæ…¢åˆ™æ³¨é‡Šæ‰ä¸‹é¢çš„åˆ¤æ–­
         RetVal= CheckBlockBrace(hbuf)
         if(RetVal.iCount != 0)
         {
@@ -3145,19 +3145,19 @@ macro ExpandBraceLarge()
             stop
         }
         
-        //È¡³öÑ¡ÖĞÇøÇ°µÄÄÚÈİ
+        //å–å‡ºé€‰ä¸­åŒºå‰çš„å†…å®¹
         szOld = strmid(szLine,0,sel.ichFirst)
         if(sel.lnFirst != sel.lnLast)
         {
-            //¶ÔÓÚ¶àĞĞµÄÇé¿ö
+            //å¯¹äºå¤šè¡Œçš„æƒ…å†µ
             
-            //µÚÒ»ĞĞµÄÑ¡ÖĞ²¿·Ö
+            //ç¬¬ä¸€è¡Œçš„é€‰ä¸­éƒ¨åˆ†
             szMid = strmid(szLine,sel.ichFirst,strlen(szLine))
             szMid = TrimString(szMid)
             szLast = GetBufLine(hbuf,sel.lnLast)
             if( sel.ichLim > strlen(szLast) )
             {
-                //Èç¹ûÑ¡ÔñÇø³¤¶È´óÓÚ¸ÄĞĞµÄ³¤¶È£¬×î´óÈ¡¸ÃĞĞµÄ³¤¶È
+                //å¦‚æœé€‰æ‹©åŒºé•¿åº¦å¤§äºæ”¹è¡Œçš„é•¿åº¦ï¼Œæœ€å¤§å–è¯¥è¡Œçš„é•¿åº¦
                 szLineselichLim = strlen(szLast)
             }
             else
@@ -3165,19 +3165,19 @@ macro ExpandBraceLarge()
                 szLineselichLim = sel.ichLim
             }
             
-            //µÃµ½×îºóÒ»ĞĞÑ¡ÔñÇøÎªµÄ×Ö·û
+            //å¾—åˆ°æœ€åä¸€è¡Œé€‰æ‹©åŒºä¸ºçš„å­—ç¬¦
             szRight = strmid(szLast,szLineselichLim,strlen(szLast))
             szRight = TrimString(szRight)
         }
         else
         {
-            //¶ÔÓÚÑ¡ÔñÖ»ÓĞÒ»ĞĞµÄÇé¿ö
+            //å¯¹äºé€‰æ‹©åªæœ‰ä¸€è¡Œçš„æƒ…å†µ
              if(sel.ichLim >= strlen(szLine))
              {
                  sel.ichLim = strlen(szLine)
              }
              
-             //»ñµÃÑ¡ÖĞÇøµÄÄÚÈİ
+             //è·å¾—é€‰ä¸­åŒºçš„å†…å®¹
              szMid = strmid(szLine,sel.ichFirst,sel.ichLim)
              szMid = TrimString(szMid)            
              if( sel.ichLim > strlen(szLine) )
@@ -3189,7 +3189,7 @@ macro ExpandBraceLarge()
                  szLineselichLim = sel.ichLim
              }
              
-             //Í¬ÑùµÃµ½Ñ¡ÖĞÇøºóµÄÄÚÈİ
+             //åŒæ ·å¾—åˆ°é€‰ä¸­åŒºåçš„å†…å®¹
              szRight = strmid(szLine,szLineselichLim,strlen(szLine))
              szRight = TrimString(szRight)
         }
@@ -3208,27 +3208,27 @@ macro ExpandBraceLarge()
             szCurLine = cat("    ",szCurLine)
             if(nIdx == sel.lnLast - 1)
             {
-                //¶ÔÓÚ×îºóÒ»ĞĞÓ¦¸ÃÊÇÑ¡ÖĞÇøÄÚµÄÄÚÈİºóÒÆËÄÎ»
+                //å¯¹äºæœ€åä¸€è¡Œåº”è¯¥æ˜¯é€‰ä¸­åŒºå†…çš„å†…å®¹åç§»å››ä½
                 szCurLine = strmid(szCurLine,0,szLineselichLim + 4)
                 PutBufLine(hbuf,nIdx+1,szCurLine)                    
             }
             else
             {
-                //ÆäËüÇé¿öÊÇÕûĞĞµÄÄÚÈİºóÒÆËÄÎ»
+                //å…¶å®ƒæƒ…å†µæ˜¯æ•´è¡Œçš„å†…å®¹åç§»å››ä½
                 PutBufLine(hbuf,nIdx+1,szCurLine)
             }
             nIdx = nIdx + 1
         }
         if(strlen(szRight) != 0)
         {
-            //×îºó²åÈë×îºóÒ»ĞĞÃ»ÓĞ±»Ñ¡ÔñµÄÄÚÈİ
+            //æœ€åæ’å…¥æœ€åä¸€è¡Œæ²¡æœ‰è¢«é€‰æ‹©çš„å†…å®¹
             InsBufLine(hbuf, sel.lnLast + 1, "@szLeft@@szRight@")        
         }
         InsBufLine(hbuf, sel.lnLast + 1, "@szLeft@}")        
         nlineCount = nlineCount + 1
         if(nLeft < sel.ichFirst)
         {
-            //Èç¹ûÑ¡ÖĞÇøÇ°µÄÄÚÈİ²»ÊÇ¿Õ¸ñ£¬ÔòÒª±£Áô¸Ã²¿·ÖÄÚÈİ
+            //å¦‚æœé€‰ä¸­åŒºå‰çš„å†…å®¹ä¸æ˜¯ç©ºæ ¼ï¼Œåˆ™è¦ä¿ç•™è¯¥éƒ¨åˆ†å†…å®¹
             PutBufLine(hbuf,ln,szOld)
             InsBufLine(hbuf, ln+1, "@szLeft@{")
             nlineCount = nlineCount + 1
@@ -3236,13 +3236,13 @@ macro ExpandBraceLarge()
         }
         else
         {
-            //Èç¹ûÑ¡ÖĞÇøÇ°Ã»ÓĞÄÚÈİÖ±½ÓÉ¾³ı¸ÃĞĞ
+            //å¦‚æœé€‰ä¸­åŒºå‰æ²¡æœ‰å†…å®¹ç›´æ¥åˆ é™¤è¯¥è¡Œ
             DelBufLine(hbuf,ln)
             InsBufLine(hbuf, ln, "@szLeft@{")
         }
         if(strlen(szMid) > 0)
         {
-            //²åÈëµÚÒ»ĞĞÑ¡ÔñÇøµÄÄÚÈİ
+            //æ’å…¥ç¬¬ä¸€è¡Œé€‰æ‹©åŒºçš„å†…å®¹
             InsBufLine(hbuf, ln+1, "@szLeft@    @szMid@")
             nlineCount = nlineCount + 1
             ln = ln + 1
@@ -3250,7 +3250,7 @@ macro ExpandBraceLarge()
     }
     retVal.szLeft = szLeft
     retVal.nLineCount = nlineCount
-    //·µ»ØĞĞÊıºÍ×ó±ßµÄ¿Õ°×
+    //è¿”å›è¡Œæ•°å’Œå·¦è¾¹çš„ç©ºç™½
     return retVal
 }
 
@@ -3352,7 +3352,7 @@ macro DelCompoundStatement()
         RetVal = SkipCommentFromString(szLine,fIsEnd)
         szTmp = RetVal.szContent
         fIsEnd = RetVal.fIsEnd
-        //²éÕÒ¸´ºÏÓï¾äµÄ¿ªÊ¼
+        //æŸ¥æ‰¾å¤åˆè¯­å¥çš„å¼€å§‹
         ret = strstr(szTmp,"{")
         if(ret != 0xffffffff)
         {
@@ -3367,9 +3367,9 @@ macro DelCompoundStatement()
             sel.lnLast = ln
             sel.ichFirst = ret
             sel.ichLim = ret
-            //²éÕÒ¶ÔÓ¦µÄ´óÀ¨ºÅ
+            //æŸ¥æ‰¾å¯¹åº”çš„å¤§æ‹¬å·
             
-            //Ê¹ÓÃ×Ô¼º±àĞ´µÄ´úÂëËÙ¶ÈÌ«Âı
+            //ä½¿ç”¨è‡ªå·±ç¼–å†™çš„ä»£ç é€Ÿåº¦å¤ªæ…¢
             retTmp = SearchCompoundEnd(hbuf,ln,ret)
             if(retTmp.iCount == 0)
             {
@@ -3383,7 +3383,7 @@ macro DelCompoundStatement()
                 Indent_Left
             }
             
-            //Ê¹ÓÃSiµÄ´óÀ¨ºÅÅä¶Ô·½·¨£¬µ«V2.1Ê±ÔÚ×¢ÊÍÇ¶Ì×Ê±¿ÉÄÜÓĞÎó
+            //ä½¿ç”¨Siçš„å¤§æ‹¬å·é…å¯¹æ–¹æ³•ï¼Œä½†V2.1æ—¶åœ¨æ³¨é‡ŠåµŒå¥—æ—¶å¯èƒ½æœ‰è¯¯
 /*            SetWndSel(hwnd,sel)
             Block_Down
             selNew = GetWndSel(hwnd)
@@ -3483,7 +3483,7 @@ macro SearchCompoundEnd(hbuf,ln,ichBeg)
         ichBeg = 0
         nCount = RetVal.iCount
         
-        //Èç¹ûnCount=0ÔòËµÃ÷{}ÊÇÅä¶ÔµÄ
+        //å¦‚æœnCount=0åˆ™è¯´æ˜{}æ˜¯é…å¯¹çš„
         if(nCount == 0)
         {
             break
@@ -3510,7 +3510,7 @@ macro CheckBrace(szLine,ichBeg,ichEnd,chBeg,chEnd,nCheckCount,isCommentEnd)
     fIsEnd = 1
     while(nIdx <= ichEnd)
     {
-        //Èç¹ûÊÇ/*×¢ÊÍÇø£¬Ìø¹ı¸Ã¶Î
+        //å¦‚æœæ˜¯/*æ³¨é‡ŠåŒºï¼Œè·³è¿‡è¯¥æ®µ
         if( (isCommentEnd == 0) || (szLine[nIdx] == "/" && szLine[nIdx+1] == "*"))
         {
             fIsEnd = 0
@@ -3530,7 +3530,7 @@ macro CheckBrace(szLine,ichBeg,ichEnd,chBeg,chEnd,nCheckCount,isCommentEnd)
                 break
             }
         }
-        //Èç¹ûÊÇ//×¢ÊÍÔòÍ£Ö¹²éÕÒ
+        //å¦‚æœæ˜¯//æ³¨é‡Šåˆ™åœæ­¢æŸ¥æ‰¾
         if(szLine[nIdx] == "/" && szLine[nIdx+1] == "/")
         {
             break
@@ -3604,7 +3604,7 @@ macro InsertSwitch()
     szLeft = strmid(szLine,0,nLeft);
     InsBufLine(hbuf, ln, "@szLeft@switch ( # )")    
     InsBufLine(hbuf, ln + 1, "@szLeft@" # "{")
-    nSwitch = ask("ÇëÊäÈëcaseµÄ¸öÊı")
+    nSwitch = ask("è¯·è¾“å…¥caseçš„ä¸ªæ•°")
     InsertMultiCaseProc(hbuf,szLeft,nSwitch)
     SearchForward()    
 }
@@ -3630,12 +3630,12 @@ macro InsertMultiCaseProc(hbuf,szLeft,nSwitch)
         while ( i < lnMax) 
         {
             szLine = GetBufLine(hNewBuf , i)
-            //ÏÈÈ¥µô´úÂëÖĞ×¢ÊÍµÄÄÚÈİ
+            //å…ˆå»æ‰ä»£ç ä¸­æ³¨é‡Šçš„å†…å®¹
             RetVal = SkipCommentFromString(szLine,fIsEnd)
             szLine = RetVal.szContent
             fIsEnd = RetVal.fIsEnd
 //            nLeft = GetLeftBlank(szLine)
-            //´Ó¼ôÌù°åÖĞÈ¡µÃcaseÖµ
+            //ä»å‰ªè´´æ¿ä¸­å–å¾—caseå€¼
             szLine = GetSwitchVar(szLine)
             if(strlen(szLine) != 0 )
             {
@@ -3723,7 +3723,7 @@ macro SkipCommentFromString(szLine,isCommentEnd)
     nIdx = 0
     while(nIdx < nLen )
     {
-        //Èç¹ûµ±Ç°ĞĞ¿ªÊ¼»¹ÊÇ±»×¢ÊÍ£¬»òÓöµ½ÁË×¢ÊÍ¿ªÊ¼µÄ±ä±ê¼Ç£¬×¢ÊÍÄÚÈİ¸ÄÎª¿Õ¸ñÍ
+        //å¦‚æœå½“å‰è¡Œå¼€å§‹è¿˜æ˜¯è¢«æ³¨é‡Šï¼Œæˆ–é‡åˆ°äº†æ³¨é‡Šå¼€å§‹çš„å˜æ ‡è®°ï¼Œæ³¨é‡Šå†…å®¹æ”¹ä¸ºç©ºæ ¼?
         if( (isCommentEnd == 0) || (szLine[nIdx] == "/" && szLine[nIdx+1] == "*"))
         {
             fIsEnd = 0
@@ -3740,7 +3740,7 @@ macro SkipCommentFromString(szLine,isCommentEnd)
                 }
                 szLine[nIdx] = " "
                 
-                //Èç¹ûÊÇµ¹ÊıµÚ¶ş¸öÔò×îºóÒ»¸öÒ²¿Ï¶¨ÊÇÔÚ×¢ÊÍÄÚ
+                //å¦‚æœæ˜¯å€’æ•°ç¬¬äºŒä¸ªåˆ™æœ€åä¸€ä¸ªä¹Ÿè‚¯å®šæ˜¯åœ¨æ³¨é‡Šå†…
 //                if(nIdx == nLen -2 )
 //                {
 //                    szLine[nIdx + 1] = " "
@@ -3748,14 +3748,14 @@ macro SkipCommentFromString(szLine,isCommentEnd)
                 nIdx = nIdx + 1 
             }    
             
-            //Èç¹ûÒÑ¾­µ½ÁËĞĞÎ²ÖÕÖ¹ËÑË÷
+            //å¦‚æœå·²ç»åˆ°äº†è¡Œå°¾ç»ˆæ­¢æœç´¢
             if(nIdx == nLen)
             {
                 break
             }
         }
         
-        //Èç¹ûÓöµ½µÄÊÇ//À´×¢ÊÍµÄËµÃ÷ºóÃæ¶¼Îª×¢ÊÍ
+        //å¦‚æœé‡åˆ°çš„æ˜¯//æ¥æ³¨é‡Šçš„è¯´æ˜åé¢éƒ½ä¸ºæ³¨é‡Š
         if(szLine[nIdx] == "/" && szLine[nIdx+1] == "/")
         {
             szLine = strmid(szLine,0,nIdx)
@@ -3840,7 +3840,7 @@ macro InsertFor()
     sel.ichLim = 0
     SetWndSel(hwnd, sel)
     SearchForward()
-    szVar = ask("ÇëÊäÈëÑ­»·±äÁ¿")
+    szVar = ask("è¯·è¾“å…¥å¾ªç¯å˜é‡")
     PutBufLine(hbuf,ln, "@szLeft@for ( @szVar@ = # ; @szVar@ # ; @szVar@++ )")
     SearchForward()
 }
@@ -3876,7 +3876,7 @@ macro MergeString()
     SetCurrentBuf(hbuf)
     PasteBufLine (hbuf, 0)
     
-    //Èç¹û¼ôÌù°åÖĞÃ»ÓĞÄÚÈİ£¬Ôò·µ»Ø
+    //å¦‚æœå‰ªè´´æ¿ä¸­æ²¡æœ‰å†…å®¹ï¼Œåˆ™è¿”å›
     lnMax = GetBufLineCount(hbuf )
     if( lnMax == 0 )
     {
@@ -3977,7 +3977,7 @@ macro ComentCPPtoC()
             }
             ich = ich + 1
         }
-        /*Èç¹ûÊÇ¿ÕĞĞ£¬Ìø¹ı¸ÃĞĞ*/
+        /*å¦‚æœæ˜¯ç©ºè¡Œï¼Œè·³è¿‡è¯¥è¡Œ*/
         if(ich == ilen)
         {         
             lnCurrent = lnCurrent + 1
@@ -3985,7 +3985,7 @@ macro ComentCPPtoC()
             continue 
         }
         
-        /*Èç¹û¸ÃĞĞÖ»ÓĞÒ»¸ö×Ö·û*/
+        /*å¦‚æœè¯¥è¡Œåªæœ‰ä¸€ä¸ªå­—ç¬¦*/
         if(ich > ilen - 2)
         {
             if( isCommentContinue == 1 )
@@ -4000,11 +4000,11 @@ macro ComentCPPtoC()
         }       
         if( isCommentEnd == 1 )
         {
-            /*Èç¹û²»ÊÇÔÚ×¢ÊÍÇøÄÚ*/
+            /*å¦‚æœä¸æ˜¯åœ¨æ³¨é‡ŠåŒºå†…*/
             if(( szLine[ich]==ch_comment ) && (szLine[ich+1]==ch_comment))
             {
                 
-                /* È¥µôÖĞ¼äÇ¶Ì×µÄ×¢ÊÍ */
+                /* å»æ‰ä¸­é—´åµŒå¥—çš„æ³¨é‡Š */
                 nIdx = ich + 2
                 while ( nIdx < ilen -1 )
                 {
@@ -4019,23 +4019,23 @@ macro ComentCPPtoC()
                 
                 if( isCommentContinue == 1 )
                 {
-                    /* Èç¹ûÊÇÁ¬ĞøµÄ×¢ÊÍ*/
+                    /* å¦‚æœæ˜¯è¿ç»­çš„æ³¨é‡Š*/
                     szLine[ich] = " "
                     szLine[ich+1] = " "
                 }
                 else
                 {
-                    /*Èç¹û²»ÊÇÁ¬ĞøµÄ×¢ÊÍÔòÊÇĞÂ×¢ÊÍµÄ¿ªÊ¼*/
+                    /*å¦‚æœä¸æ˜¯è¿ç»­çš„æ³¨é‡Šåˆ™æ˜¯æ–°æ³¨é‡Šçš„å¼€å§‹*/
                     szLine[ich] = "/"
                     szLine[ich+1] = "*"
                 }
                 if ( lnCurrent == lnLast )
                 {
-                    /*Èç¹ûÊÇ×îºóÒ»ĞĞÔòÔÚĞĞÎ²Ìí¼Ó½áÊø×¢ÊÍ·û*/
+                    /*å¦‚æœæ˜¯æœ€åä¸€è¡Œåˆ™åœ¨è¡Œå°¾æ·»åŠ ç»“æŸæ³¨é‡Šç¬¦*/
                     szLine = cat(szLine,"  */")
                     isCommentContinue = 0
                 }
-                /*¸üĞÂ¸ÃĞĞ*/
+                /*æ›´æ–°è¯¥è¡Œ*/
                 PutBufLine(hbuf,lnCurrent,szLine)
                 isCommentContinue = 1
                 szOldLine = szLine
@@ -4044,7 +4044,7 @@ macro ComentCPPtoC()
             }
             else
             {   
-                /*Èç¹û¸ÃĞĞµÄÆğÊ¼²»ÊÇ//×¢ÊÍ*/
+                /*å¦‚æœè¯¥è¡Œçš„èµ·å§‹ä¸æ˜¯//æ³¨é‡Š*/
                 if( isCommentContinue == 1 )
                 {
                     szOldLine = cat(szOldLine,"  */")
@@ -4055,7 +4055,7 @@ macro ComentCPPtoC()
         }
         while ( ich < ilen - 1 )
         {
-            //Èç¹ûÊÇ/*×¢ÊÍÇø£¬Ìø¹ı¸Ã¶Î
+            //å¦‚æœæ˜¯/*æ³¨é‡ŠåŒºï¼Œè·³è¿‡è¯¥æ®µ
             if( (isCommentEnd == 0) || (szLine[ich] == "/" && szLine[ich+1] == "*"))
             {
                 isCommentEnd = 0
@@ -4077,10 +4077,10 @@ macro ComentCPPtoC()
             
             if(( szLine[ich]==ch_comment ) && (szLine[ich+1]==ch_comment))
             {
-                /* Èç¹ûÊÇ//×¢ÊÍ*/
+                /* å¦‚æœæ˜¯//æ³¨é‡Š*/
                 isCommentContinue = 1
                 nIdx = ich
-                //È¥µôÆÚ¼äµÄ/* ºÍ */×¢ÊÍ·ûÒÔÃâ³öÏÖ×¢ÊÍÇ¶Ì×´íÎó
+                //å»æ‰æœŸé—´çš„/* å’Œ */æ³¨é‡Šç¬¦ä»¥å…å‡ºç°æ³¨é‡ŠåµŒå¥—é”™è¯¯
                 while ( nIdx < ilen -1 )
                 {
                     if( (( szLine[nIdx] == "/" ) && (szLine[nIdx+1] == "*")||
@@ -4128,7 +4128,7 @@ macro ComentLine()
             continue
         }
         nIdx = 0
-        //È¥µôÆÚ¼äµÄ/* ºÍ */×¢ÊÍ·ûÒÔÃâ³öÏÖ×¢ÊÍÇ¶Ì×´íÎó
+        //å»æ‰æœŸé—´çš„/* å’Œ */æ³¨é‡Šç¬¦ä»¥å…å‡ºç°æ³¨é‡ŠåµŒå¥—é”™è¯¯
         while ( nIdx < ilen -1 )
         {
             if( (( szLine[nIdx] == "/" ) && (szLine[nIdx+1] == "*")||
@@ -4160,7 +4160,7 @@ macro CmtCvtLine(lnCurrent, isCommentEnd)
     
     while ( ich < ilen - 1 )
     {
-        //Èç¹ûÊÇ/*×¢ÊÍÇø£¬Ìø¹ı¸Ã¶Î
+        //å¦‚æœæ˜¯/*æ³¨é‡ŠåŒºï¼Œè·³è¿‡è¯¥æ®µ
         if( (isCommentEnd == 0) || (szLine[ich] == "/" && szLine[ich+1] == "*"))
         {
             fIsEnd = 0
@@ -4314,9 +4314,9 @@ macro ReviseCommentProc(hbuf,ln,szCmd,szMyName,szLine1)
         
         DelBufLine(hbuf, ln)
         szQuestion = AddPromblemNo()
-        InsBufLine(hbuf, ln, "@szLine1@/* ÎÊ Ìâ µ¥: @szQuestion@     ĞŞ¸ÄÈË:@szMyName@,   Ê±¼ä:@sz@/@sz1@/@sz3@ ");
-        szContent = Ask("ĞŞ¸ÄÔ­Òò")
-        szLeft = cat(szLine1,"   ĞŞ¸ÄÔ­Òò: ");
+        InsBufLine(hbuf, ln, "@szLine1@/* é—® é¢˜ å•: @szQuestion@     ä¿®æ”¹äºº:@szMyName@,   æ—¶é—´:@sz@/@sz1@/@sz3@ ");
+        szContent = Ask("ä¿®æ”¹åŸå› ")
+        szLeft = cat(szLine1,"   ä¿®æ”¹åŸå› : ");
         if(strlen(szLeft) > 70)
         {
             Msg("The right margine is small, Please use a new line")
@@ -4336,7 +4336,7 @@ macro ReviseCommentProc(hbuf,ln,szCmd,szMyName,szLine1)
         szQuestion = GetReg ("PNO")
         if(strlen(szQuestion)>0)
         {
-            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Added by @szMyName@, @sz@/@sz1@/@sz3@   ÎÊÌâµ¥ºÅ:@szQuestion@*/");
+            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Added by @szMyName@, @sz@/@sz1@/@sz3@   é—®é¢˜å•å·:@szQuestion@*/");
         }
         else
         {
@@ -4366,7 +4366,7 @@ macro ReviseCommentProc(hbuf,ln,szCmd,szMyName,szLine1)
         szQuestion = GetReg ("PNO")
         if(strlen(szQuestion) > 0)
         {
-            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Deleted by @szMyName@, @sz@/@sz1@/@sz3@   ÎÊÌâµ¥ºÅ:@szQuestion@*/");
+            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Deleted by @szMyName@, @sz@/@sz1@/@sz3@   é—®é¢˜å•å·:@szQuestion@*/");
         }
         else
         {
@@ -4397,7 +4397,7 @@ macro ReviseCommentProc(hbuf,ln,szCmd,szMyName,szLine1)
         szQuestion = GetReg ("PNO")
             if(strlen(szQuestion) > 0)
         {
-            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Modified by @szMyName@, @sz@/@sz1@/@sz3@   ÎÊÌâµ¥ºÅ:@szQuestion@*/");
+            InsBufLine(hbuf, ln, "@szLine1@/* BEGIN: Modified by @szMyName@, @sz@/@sz1@/@sz3@   é—®é¢˜å•å·:@szQuestion@*/");
         }
         else
         {
@@ -4689,7 +4689,7 @@ macro HeadIfdefStr(sz)
 
 macro GetSysTime(a)
 {
-    //´ÓsidateÈ¡µÃÊ±¼ä
+    //ä»sidateå–å¾—æ—¶é—´
     RunCmd ("sidate")
     SysTime=""
     SysTime.Year=getreg(Year)
@@ -4701,18 +4701,18 @@ macro GetSysTime(a)
         SysTime.Year="2002"
         SysTime.month="05"
         SysTime.day="20"
-        SysTime.Date="2002Äê05ÔÂ20ÈÕ"
+        SysTime.Date="2002å¹´05æœˆ20æ—¥"
     }
     else
     {
         SysTime.Month=getreg(Month)
         SysTime.Day=getreg(Day)
         SysTime.Date=getreg(Date)
-   /*         SysTime.Date=cat(SysTime.Year,"Äê")
+   /*         SysTime.Date=cat(SysTime.Year,"å¹´")
         SysTime.Date=cat(SysTime.Date,SysTime.Month)
-        SysTime.Date=cat(SysTime.Date,"ÔÂ")
+        SysTime.Date=cat(SysTime.Date,"æœˆ")
         SysTime.Date=cat(SysTime.Date,SysTime.Day)
-        SysTime.Date=cat(SysTime.Date,"ÈÕ")*/
+        SysTime.Date=cat(SysTime.Date,"æ—¥")*/
     }
     return SysTime
 }
@@ -4782,7 +4782,7 @@ macro FunctionHeaderCreate()
     }
     if(language == 0 )
     {
-        szFuncName = Ask("ÇëÊäÈëº¯ÊıÃû³Æ:")
+        szFuncName = Ask("è¯·è¾“å…¥å‡½æ•°åç§°:")
             FuncHeadCommentCN(hbuf, ln, szFuncName, szMyName, 1)
     }
     else
