@@ -106,10 +106,25 @@ macro AutoExpand()
         AddStructHeader()
         return
     }
+    else if (wordinfo.szWord == "asmc")
+    {
+    	AddStructMemberComment()
+    	return
+    }
     else if (wordinfo.szWord == "aeh")
     {
         AddEnumHeader()
         return
+    }
+    else if (wordinfo.szWord == "func")
+    {
+    	FunctionHeaderCreate()
+    	return
+    }
+    else if (wordinfo.szWord == "filec")
+    {
+    	FileHeaderCreate()
+    	return
     }
     if(language == 1)
     {
@@ -133,6 +148,31 @@ macro ExpandProcEN(szMyName,wordinfo,szLine,szLine1,nVer,ln,sel)
     if (szCmd == "/*")
     {   
         if(wordinfo.ichLim > 70)
+        {
+            Msg("The right margine is small, Please use a new line")
+            stop 
+        }
+        szCurLine = GetBufLine(hbuf, sel.lnFirst);
+        szLeft = strmid(szCurLine,0,wordinfo.ichLim)
+        lineLen = strlen(szCurLine)
+        kk = 0
+        while(wordinfo.ichLim + kk < lineLen)
+        {
+            if((szCurLine[wordinfo.ichLim + kk] != " ")||(szCurLine[wordinfo.ichLim + kk] != "\t")
+            {
+                return
+            }
+            kk = kk + 1
+        }
+        szContent = Ask("Please input comment")
+        DelBufLine(hbuf, ln)
+        szLeft = cat( szLeft, " ")
+        CommentContent(hbuf,ln,szLeft,szContent,1)            
+        return
+    }
+    else if(szCmd == "/**\<")
+    {
+       if(wordinfo.ichLim > 70)
         {
             Msg("The right margine is small, Please use a new line")
             stop 
@@ -4873,6 +4913,40 @@ macro AddStructHeader()
 
     // put the insertion point inside the header comment
     SetBufIns( hbuf, lnStartPos, 10 )
+}
+
+/** @brief    添加结构体成员注释
+  * @param[in]  
+  * @param[out]  
+  * @return  
+  */
+macro AddStructMemberComment()
+{
+    // Get a handle to the current file buffer and the name
+    // and location of the current symbol where the cursor is.
+    hbuf = GetCurrentBuf()
+
+    if( hbuf == hNil )
+    {
+        return 1
+    }
+
+    ln = GetBufLnCur( hbuf )
+
+    /* if owner variable exists, insert Owner: name */
+    lnStartPos = ln;
+    if (strlen(szMyName) > 0)
+    {
+        InsBufLine( hbuf, ln, "/**<  */" )
+    }
+    else
+    {
+    	lnStartPos = ln;
+    }
+
+	CommentContent(hbuf,lnStartPos,"","",1)
+    // put the insertion point inside the header comment
+    //SetBufIns( hbuf, lnStartPos, 7 )
 }
 
 macro AddEnumHeader()
